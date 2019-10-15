@@ -3,6 +3,7 @@
     <string name="project_title">Project Title</string>
     <string name="project_desp">This is the detail of the project</string>
     <string name="next_project">Next Project</string>
+    <string name="projectid_key">projectid</string>
 
     <string-array name="Projects_list">
         <item>Weather Forecast</item>

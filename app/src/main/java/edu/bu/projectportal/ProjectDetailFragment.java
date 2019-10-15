@@ -33,18 +33,26 @@ public class ProjectDetailFragment extends Fragment {
         titleTextView = view.findViewById(R.id.projTitleTextViewId);
         summaryTextView = view.findViewById(R.id.projSummaryTextViewId);
 
-        projectId = 0;
+        Bundle arguments = getArguments ();
+        if (arguments != null)
+            projectId = getArguments().getInt("projectid");
 
-        Log.d(TAG, " Project Id: " + projectId);
+        else
+            projectId = 0;
+
+        Log.d("projectid", " " + projectId);
         setProject(projectId);
+
 
         return view;
     }
 
     public void setProject(int projId) {
         projectId = projId;
-        titleTextView.setText(Project.projects[projectId].getTitle());
-        summaryTextView.setText(Project.projects[projectId].getSummary());
+        if (titleTextView != null)
+             titleTextView.setText(Project.projects[projectId].getTitle());
+        if (summaryTextView != null )
+            summaryTextView.setText(Project.projects[projectId].getSummary());
     }
 
     public int getProjectId(){
