@@ -33,7 +33,12 @@ public class ProjectDetailFragment extends Fragment {
         titleTextView = view.findViewById(R.id.projTitleTextViewId);
         summaryTextView = view.findViewById(R.id.projSummaryTextViewId);
 
-        projectId = 0;
+
+
+        if (getArguments()!= null)
+            projectId = getArguments().getInt("projectid");
+        else
+            projectId = 0;
 
         Log.d(TAG, " Project Id: " + projectId);
         setProject(projectId);
