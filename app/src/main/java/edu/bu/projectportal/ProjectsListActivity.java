@@ -21,7 +21,7 @@ public class ProjectsListActivity extends AppCompatActivity implements ProjectLi
         SharedPreferences sharedPreferences = getSharedPreferences("accesstime", Context.MODE_PRIVATE);
         String lastAccessTime = sharedPreferences.getString("lastaccesstime", "");
 
-        if (lastAccessTime.compareTo ( "") == 0) {
+        if (lastAccessTime.compareTo ( "") != 0) {
             TextView textView = findViewById(R.id.latid);
             textView.setText(lastAccessTime);
         }
