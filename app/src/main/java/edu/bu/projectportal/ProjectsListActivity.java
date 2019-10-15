@@ -16,6 +16,21 @@ public class ProjectsListActivity extends AppCompatActivity implements ProjectLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects_list);
+
+        // get the last access time from the shared preferences. The file name is accesstime.xml
+        SharedPreferences sharedPreferences = getSharedPreferences("accesstime", Context.MODE_PRIVATE);
+        String lastAccessTime = sharedPreferences.getString("lastaccesstime", "");
+
+        if (lastAccessTime.compareTo ( "") == 0) {
+            TextView textView = findViewById(R.id.latid);
+            textView.setText(lastAccessTime);
+        }
+
+        // get current time and write to the shared preferences file
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String curTime = (new Date()).toString();
+        editor.putString("lastaccesstime","last access at " + curTime);
+        editor.commit();
     }
 
     @Override
