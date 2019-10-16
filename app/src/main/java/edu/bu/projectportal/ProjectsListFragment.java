@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
+import edu.bu.projectportal.database.ProjectDao;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -26,7 +30,13 @@ public class ProjectsListFragment extends Fragment {
         RecyclerView projectsListRecyclerView =
                 (v.findViewById(R.id.projectlist_recyclerview));
 
-        ProjectListAdapter projectListAdapter = new ProjectListAdapter(Project.projects);
+        ProjectDao projectDao = ProjectDao.getInstance (getContext());
+        projectDao.openDb ();
+
+        List<Project> projects;
+        projects = projectDao.getAllProject();
+
+        ProjectListAdapter projectListAdapter = new ProjectListAdapter(projects);
         projectsListRecyclerView.setAdapter(projectListAdapter);
         projectListAdapter.setListener((ProjectListAdapter.Listener)getActivity());
 

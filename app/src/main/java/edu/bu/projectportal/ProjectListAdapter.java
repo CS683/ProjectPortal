@@ -10,19 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.ProjectListViewHolder>{
-    private Project[] projects;
+    private List<Project> projects;
     private Listener listener;
 
     interface Listener {
-        void onClick(int position);
+        void onClick(int id, int position);
     }
 
-    public ProjectListAdapter(Project[] projects){this.projects = projects;}
+    public ProjectListAdapter(List<Project> projects){this.projects = projects;}
 
     @Override
     public int getItemCount() {
-        return projects.length;
+        return projects.size();
     }
 
     @NotNull
@@ -36,7 +38,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 
     @Override
     public void onBindViewHolder(ProjectListViewHolder viewHolder, final int position){
-        viewHolder.projTitleView.setText(projects[position].getTitle());
+        viewHolder.projTitleView.setText(projects.get(position).getTitle());
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +48,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
                 listener = (Listener)view.getContext();
                // listener = (ProjectsListActivity)view.getContext();
                 if (listener != null)
-                    listener.onClick(position);
+                    listener.onClick(projects.get(position).getId(), position);
             }
         });
 

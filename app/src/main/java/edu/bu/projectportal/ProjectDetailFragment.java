@@ -1,13 +1,18 @@
 package edu.bu.projectportal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
+import edu.bu.projectportal.database.ProjectDao;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,6 +23,7 @@ public class ProjectDetailFragment extends Fragment {
 
     private int projectId ;
     private TextView titleTextView, summaryTextView;
+    private Button delBtn;
 
     public ProjectDetailFragment() {
         // Required empty public constructor
@@ -32,27 +38,51 @@ public class ProjectDetailFragment extends Fragment {
 
         titleTextView = view.findViewById(R.id.projTitleTextViewId);
         summaryTextView = view.findViewById(R.id.projSummaryTextViewId);
+        delBtn = view.findViewById (R.id.del_btn);
 
-
+        delBtn.setOnClickListener (new OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                deleteProject (v);
+            }
+        });
 
         if (getArguments()!= null)
             projectId = getArguments().getInt("projectid");
         else
-            projectId = 0;
+            projectId = ProjectDao.getInstance (getContext()).getNexProjectId (0);
 
         Log.d(TAG, " Project Id: " + projectId);
-        setProject(projectId);
+        if (projectId > 0)
+            setProject(projectId);
+        else
+            delBtn.setVisibility (View.INVISIBLE);
+
+
 
         return view;
     }
 
     public void setProject(int projId) {
         projectId = projId;
-        titleTextView.setText(Project.projects[projectId].getTitle());
-        summaryTextView.setText(Project.projects[projectId].getSummary());
+
+        ProjectDao projectDao = ProjectDao.getInstance (getContext());
+        Project project = projectDao.getProjectById(projectId);
+
+        if (titleTextView != null)
+            titleTextView.setText(project.getTitle());
+        if (summaryTextView != null)
+            summaryTextView.setText(project.getSummary());
     }
 
     public int getProjectId(){
         return projectId;
+    }
+
+    public void deleteProject(View v) {
+
+        ProjectDao.getInstance (getContext ()).delectProjectById (projectId);
+        Intent intent = new Intent (getContext(), ProjectsListActivity.class);
+        startActivity (intent);
     }
 }
