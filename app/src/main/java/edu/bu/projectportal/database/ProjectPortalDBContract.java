@@ -1,9 +1,5 @@
 package edu.bu.projectportal.database;
 
-/**
- * Created by danazh on 4/18/18.
- */
-
 public final class ProjectPortalDBContract {
     public static final String DBName = "projectportal.db";
     public static final int DB_VERSION = 1;

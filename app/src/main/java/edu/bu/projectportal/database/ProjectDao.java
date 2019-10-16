@@ -10,10 +10,6 @@ import java.util.List;
 
 import edu.bu.projectportal.Project;
 
-/**
- * Created by danazh on 4/18/18.
- */
-
 public class ProjectDao {
     private static ProjectDao instance;
 
@@ -92,6 +88,8 @@ public class ProjectDao {
 
     public Project getProjectById(int projectId) {
 
+        Project project = null;
+
         String[] projection = {ProjectPortalDBContract.ProjectContract.COLUMN_PROJECT_ID,
                 ProjectPortalDBContract.ProjectContract.COLUMN_PROJECT_Title,
                 ProjectPortalDBContract.ProjectContract.COLUMN_PROJECT_SUMMARY};
@@ -102,15 +100,19 @@ public class ProjectDao {
         Cursor cursor = mReadableDB.query(ProjectPortalDBContract.ProjectContract.TABLE_NAME,
                 projection, selection, selectionArgs, null, null,null);
 
-        cursor.moveToFirst();
 
-        String projectTitle = cursor.getString(cursor.getColumnIndex(
-                ProjectPortalDBContract.ProjectContract.COLUMN_PROJECT_Title));
-        String projectSum = cursor.getString(cursor.getColumnIndex(
-                ProjectPortalDBContract.ProjectContract.COLUMN_PROJECT_SUMMARY));
 
-        Project project = new Project(projectId, projectTitle,projectSum);
-        cursor.close();
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst ();
+
+            String projectTitle = cursor.getString (cursor.getColumnIndex (
+                    ProjectPortalDBContract.ProjectContract.COLUMN_PROJECT_Title));
+            String projectSum = cursor.getString (cursor.getColumnIndex (
+                    ProjectPortalDBContract.ProjectContract.COLUMN_PROJECT_SUMMARY));
+            project = new Project(projectId, projectTitle,projectSum);
+
+            cursor.close();
+        }
 
         return project;
     }
