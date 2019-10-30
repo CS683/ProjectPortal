@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.bu.projectportal.R;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // login_progress = (ProgressBar)findViewById(R.id.login_progress);
 
-        FirebaseApp.initializeApp(getApplicationContext ());
+        FirebaseApp.initializeApp (this);
         mAuth = FirebaseAuth.getInstance();
 
         signupBtn.setOnClickListener(this);
@@ -110,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(passwd)) {
             //   login_progress.setVisibility(View.VISIBLE);
             mAuth.signInWithEmailAndPassword(email, passwd).addOnCompleteListener(
-                    new OnCompleteListener<AuthResult>() {
+                    new OnCompleteListener<AuthResult> () {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {

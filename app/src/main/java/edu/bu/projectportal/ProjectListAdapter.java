@@ -17,7 +17,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
     private Listener listener;
 
     interface Listener {
-        void onClick(int id, int position);
+        void onClick(int position);
     }
 
     public ProjectListAdapter(List<Project> projects){this.projects = projects;}
@@ -48,7 +48,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
                 listener = (Listener)view.getContext();
                // listener = (ProjectsListActivity)view.getContext();
                 if (listener != null)
-                    listener.onClick(projects.get(position).getId(), position);
+                   listener.onClick(position);
             }
         });
 

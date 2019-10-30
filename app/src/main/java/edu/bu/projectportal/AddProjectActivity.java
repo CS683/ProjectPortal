@@ -36,8 +36,10 @@ public class AddProjectActivity extends AppCompatActivity {
         String summary = descEditView.getText().toString();
 
 
-        ProjectDao projectDao = ProjectDao.getInstance(getApplicationContext());
-        projectDao.insertProject(new Project(title, summary));
+       // ProjectDao projectDao = ProjectDao.getInstance(getApplicationContext());
+       // projectDao.insertProject(new Project(title, summary));
+        FireBaseHelper.getInstance ().addProject (new Project(title, summary));
+
         Intent intent = new Intent(this, ProjectsListActivity.class);
         startActivity(intent);
     }

@@ -21,7 +21,7 @@ public class ProjectDetailFragment extends Fragment {
 
     private final static String TAG = ProjectDetailFragment.class.getSimpleName ();
 
-    private int projectId ;
+    private int projectId,pos ;
     private TextView titleTextView, summaryTextView;
     private Button delBtn;
 
@@ -47,13 +47,17 @@ public class ProjectDetailFragment extends Fragment {
             }
         });
 
-        if (getArguments()!= null)
-            projectId = getArguments().getInt("projectid");
-        else
-            projectId = ProjectDao.getInstance (getContext()).getNexProjectId (0);
+        if (getArguments()!= null) {
+            projectId = getArguments ().getInt ("position");
 
+        }
+        else {
+            // projectId = ProjectDao.getInstance (getContext()).getNexProjectId (0);
+           // projectId = Project.nextId;
+            projectId = Project.projects.get(0).getId ();
+        }
         Log.d(TAG, " Project Id: " + projectId);
-        if (projectId > 0)
+        if (projectId >= 0)
             setProject(projectId);
         else
             delBtn.setVisibility (View.INVISIBLE);
@@ -66,9 +70,10 @@ public class ProjectDetailFragment extends Fragment {
     public void setProject(int projId) {
         projectId = projId;
 
-        ProjectDao projectDao = ProjectDao.getInstance (getContext());
-        Project project = projectDao.getProjectById(projectId);
+       // ProjectDao projectDao = ProjectDao.getInstance (getContext());
+       // Project project = projectDao.getProjectById(projectId);
 
+        Project project = Project.projects. get(projId);
         if (titleTextView != null)
             titleTextView.setText(project.getTitle());
         if (summaryTextView != null)
@@ -81,7 +86,9 @@ public class ProjectDetailFragment extends Fragment {
 
     public void deleteProject(View v) {
 
-        ProjectDao.getInstance (getContext ()).delectProjectById (projectId);
+       // ProjectDao.getInstance (getContext ()).delectProjectById (projectId);
+
+        FireBaseHelper.getInstance ().delProject (Project.projects.get(projectId).getDocId ());
         Intent intent = new Intent (getContext(), ProjectsListActivity.class);
         startActivity (intent);
     }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
@@ -49,19 +52,41 @@ public class ProjectsListActivity extends AppCompatActivity implements ProjectLi
     }
 
     @Override
-    public void onClick(int id, int position) {
+    public void onClick(int position) {
         ProjectDetailFragment detailFragment =
                 (ProjectDetailFragment) getSupportFragmentManager().findFragmentById(R.id.detailfragment);
 
         if (detailFragment != null) {
-            detailFragment.setProject(id);
+            detailFragment.setProject(position);
         } else {
             Intent intent = new Intent(this, ProjectDetailActivity.class);
             intent.putExtra("position", position);
-            intent.putExtra ("projectid", id);
+         //   intent.putExtra ("projectid", id);
             startActivity(intent);
 
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_project_main, menu);
+
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId ()) {
+            case R.id.action_settings:
+                break;
+            case R.id.action_signout:
+                FirebaseAuth.getInstance ().signOut ();
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
+        }
+        return true;
     }
 }

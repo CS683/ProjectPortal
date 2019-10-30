@@ -42,7 +42,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
 
     public void onClick(View view) {
         int id = projectDetailFragment.getProjectId ();
-        projectDetailFragment.setProject (projectDao.getNexProjectId (id));
+        //  projectDetailFragment.setProject (projectDao.getNexProjectId (id));
+        projectDetailFragment.setProject ((id+1)%Project.projects.size ());
     }
 
 
