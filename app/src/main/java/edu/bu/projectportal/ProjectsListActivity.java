@@ -1,8 +1,10 @@
 package edu.bu.projectportal;
 import java.util.Date;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -46,6 +48,13 @@ public class ProjectsListActivity extends AppCompatActivity implements ProjectLi
         String curTime = (new Date()).toString();
         editor.putString("lastaccesstime","last access at " + curTime);
         editor.commit();
+
+
+        BroadcastReceiver br = new MyBroadcastReceiver();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
+        // filter.addAction(Intent.ACTION_BOOT_COMPLETED);
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        getApplication().registerReceiver(br, filter);
     }
 
     @Override
